@@ -16,6 +16,9 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+import mlflow
+import mlflow.sklearn
+from mlflow.tracking import MlflowClient
 
 # ---------------------------------------------------------------------------
 # Chemins et constantes globales
@@ -26,6 +29,7 @@ MODELS_DIR: Final[Path] = ROOT / "models"
 REGISTRY_DIR: Final[Path] = ROOT / "registry"
 CURRENT_MODEL_PATH: Final[Path] = REGISTRY_DIR / "current_model.txt"
 METADATA_PATH: Final[Path] = REGISTRY_DIR / "metadata.json"
+MODEL_NAME: Final[str] = "churn_model"
 
 # ---------------------------------------------------------------------------
 # Fonctions pour la gestion des métadonnées
@@ -149,6 +153,38 @@ def main(version: str = "v1", seed: int = 42, gate_f1: float = 0.6) -> None:
 
         print(f"[DEPLOY] Modèle activé : {model_filename}")
         print(f"[DEPLOY] Alias stable : {stable_model_path}")
+
+        # -----------------------------
+        # MLflow instrumentation
+        # -----------------------------
+        mlflow.set_tracking_uri("http://127.0.0.1:5000")
+        mlflow.set_experiment("mlops-lab-01")
+
+        with mlflow.start_run(run_name=f"train-{version}") as run:
+            run_id = run.info.run_id
+
+            # Paramètres
+            mlflow.log_param("version", version)
+            mlflow.log_param("seed", seed)
+            mlflow.log_param("gate_f1", gate_f1)
+
+            # Métriques
+            mlflow.log_metrics(metrics)
+
+            # Tags descriptifs
+            mlflow.set_tag("data_file", DATA_PATH.name)
+            mlflow.set_tag("model_file", model_filename)
+
+            # Artefact : modèle stable
+            mlflow.log_artifact(str(stable_model_path), artifact_path="exported_models")
+
+            # Enregistrement du pipeline comme modèle MLflow et publication dans le Model Registry
+            mlflow.sklearn.log_model(
+                sk_model=pipe,
+                artifact_path="model",
+                registered_model_name=MODEL_NAME,
+            )
+        # -----------------------------
     else:
         print("[DEPLOY] Refusé : F1 insuffisante ou baseline non battue.")
 
