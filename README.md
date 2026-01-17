@@ -46,12 +46,14 @@
 <img width="945" height="609" alt="image" src="https://github.com/user-attachments/assets/67ebe99e-3ed2-4065-9979-7feba0adbfe8" />
 
 ## Étape 9 : API : chargement du modèle actif
+<img width="945" height="609" alt="image" src="https://github.com/user-attachments/assets/8fbe46d3-9f4d-4704-b4ac-9f492fcb805e" />
 <img width="945" height="429" alt="image" src="https://github.com/user-attachments/assets/d631731e-0c58-4be0-82b3-10a24217b961" />
 <img width="905" height="256" alt="image" src="https://github.com/user-attachments/assets/6d5cf7b3-560c-4bd5-9232-32fde0127924" />
 <img width="945" height="401" alt="image" src="https://github.com/user-attachments/assets/f8a20d5c-727a-473f-a3e3-a65419868328" />
 <img width="945" height="126" alt="image" src="https://github.com/user-attachments/assets/1aca4588-f54f-4584-baed-ae0d806d88a3" />
 <img width="945" height="525" alt="image" src="https://github.com/user-attachments/assets/698fe852-4748-416a-962e-754fb1897420" />
-<img width="945" height="525" alt="image" src="https://github.com/user-attachments/assets/a0c7a03a-a374-41a2-bc09-38ac1c1434a5" />
+
+
 
 
 
